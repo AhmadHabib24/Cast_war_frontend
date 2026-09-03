@@ -1,11 +1,11 @@
-import HomeClient from './HomeClient';
+import CastsClient from './CastsClient';
 import { getSeoMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return getSeoMetadata('/');
+  return getSeoMetadata('/casts');
 }
 
-export default function Home() {
-    return <HomeClient />;
+export default function Casts() {
+    return <CastsClient />;
 }
