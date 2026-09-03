@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, ShieldCheck, Activity, Search, Info } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function SecurityPage() {
     const [activeTab, setActiveTab] = useState<'risk' | 'audit'>('risk');
@@ -25,7 +26,7 @@ export default function SecurityPage() {
         try {
             setLoadingRisk(true);
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/admin/security/risk-flags', {
+            const res = await fetch(`${API_URL}/admin/security/risk-flags`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -43,7 +44,7 @@ export default function SecurityPage() {
         try {
             setLoadingAudit(true);
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/admin/security/audit-logs', {
+            const res = await fetch(`${API_URL}/admin/security/audit-logs`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -74,7 +75,7 @@ export default function SecurityPage() {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8000/api/v1/admin/security/risk-flags/${id}/resolve`, { 
+            const res = await fetch(`${API_URL}/admin/security/risk-flags/${id}/resolve`, { 
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });

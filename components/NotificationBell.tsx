@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Bell, Check, Circle, CheckCircle } from 'lucide-react';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function NotificationBell() {
     const [notifications, setNotifications] = useState<any[]>([]);
@@ -12,7 +13,7 @@ export default function NotificationBell() {
         try {
             const token = localStorage.getItem('token');
             if (!token) return;
-            const res = await fetch('http://localhost:8000/api/v1/notifications', {
+            const res = await fetch(`${API_URL}/notifications`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -48,7 +49,7 @@ export default function NotificationBell() {
     const markAsRead = async (id: string) => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8000/api/v1/notifications/${id}/read`, {
+            const res = await fetch(`${API_URL}/notifications/${id}/read`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
@@ -63,7 +64,7 @@ export default function NotificationBell() {
     const markAllAsRead = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8000/api/v1/notifications/mark-all-read`, {
+            const res = await fetch(`${API_URL}/notifications/mark-all-read`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });

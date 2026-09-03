@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { fetchApi } from '@/lib/api';
+import {  fetchApi , API_URL, BASE_URL } from '@/lib/api';
 
 interface Transaction {
     id: number;
@@ -26,7 +26,7 @@ export default function WalletDashboardPage() {
         const loadWallet = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch('http://localhost:8000/api/v1/wallet', {
+                const res = await fetch(`${API_URL}/wallet`, {
                     headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
                 });
                 const data = await res.json();

@@ -56,5 +56,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function CastDetailPage({ params }: Props) {
-    return <CastsDetailClient slug={params.slug} />;
+    return <CastsDetailClient />;
 }

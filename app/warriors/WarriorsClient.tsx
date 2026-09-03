@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Shield, Trophy, Search } from 'lucide-react';
 import { InstagramIcon, FacebookIcon } from '@/components/SocialIcons';
 import { getSeoMetadata } from '@/lib/seo';
-import { fetchApi } from '@/lib/api';
+import {  fetchApi , API_URL, BASE_URL } from '@/lib/api';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -75,7 +75,7 @@ export default function WarriorsPage() {
                                             <div className="flex-1 flex items-center space-x-4">
                                                 <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-black text-gray-500 text-sm border-2 border-[var(--color-metallic-gold)] shadow-sm overflow-hidden">
                                                     {warrior.profile?.avatar ? (
-                                                        <img src={`http://localhost:8000/${warrior.profile.avatar.replace('public/', 'storage/')}`} alt={warrior.name} className="w-full h-full object-cover" />
+                                                        <img src={`${BASE_URL}/${warrior.profile.avatar.replace('public/', 'storage/')}`} alt={warrior.name} className="w-full h-full object-cover" />
                                                     ) : (
                                                         <span>{warrior.name[0]}</span>
                                                     )}

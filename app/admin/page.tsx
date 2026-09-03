@@ -15,6 +15,7 @@ import {
 } from 'chart.js';
 import { Line, Bar, Doughnut, Pie } from 'react-chartjs-2';
 import { Users, Swords, CreditCard, Wallet, Activity, ShieldAlert, CheckCircle2, Trophy } from 'lucide-react';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 ChartJS.register(
   CategoryScale,
@@ -36,7 +37,7 @@ export default function AdminDashboardPage() {
         const fetchStats = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch('http://localhost:8000/api/v1/admin/dashboard', {
+                const res = await fetch(`${API_URL}/admin/dashboard`, {
                     headers: { 
                         'Accept': 'application/json',
                         'Authorization': `Bearer ${token}`

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Search, CheckCircle, XCircle, Link as LinkIcon, User, Clock, AlertCircle } from 'lucide-react';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { toast } from 'react-hot-toast';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function AdminSocialRequestsPage() {
     const [requests, setRequests] = useState<any[]>([]);
@@ -20,7 +21,7 @@ export default function AdminSocialRequestsPage() {
     const fetchRequests = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/admin/social-requests', {
+            const res = await fetch(`${API_URL}/admin/social-requests`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -58,7 +59,7 @@ export default function AdminSocialRequestsPage() {
         setActionLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const url = `http://localhost:8000/api/v1/admin/social-requests/${id}/${action}`;
+            const url = `${API_URL}/admin/social-requests/${id}/${action}`;
             
             const res = await fetch(url, { 
                 method: 'POST',

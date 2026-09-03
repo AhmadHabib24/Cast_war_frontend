@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Pencil, Trash2, Plus, X, Search } from 'lucide-react';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { toast } from 'react-hot-toast';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function AdminCastsPage() {
     const [casts, setCasts] = useState<any[]>([]);
@@ -24,7 +25,7 @@ export default function AdminCastsPage() {
     const fetchCasts = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/admin/casts', {
+            const res = await fetch(`${API_URL}/admin/casts`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -65,8 +66,8 @@ export default function AdminCastsPage() {
 
         const token = localStorage.getItem('token');
         const url = modalMode === 'create' 
-            ? 'http://localhost:8000/api/v1/admin/casts' 
-            : `http://localhost:8000/api/v1/admin/casts/${formData.id}`;
+            ? `${API_URL}/admin/casts` 
+            : `${API_URL}/admin/casts/${formData.id}`;
         
         const method = modalMode === 'create' ? 'POST' : 'PUT';
 
@@ -107,7 +108,7 @@ export default function AdminCastsPage() {
         
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8000/api/v1/admin/casts/${id}`, { 
+            const res = await fetch(`${API_URL}/admin/casts/${id}`, { 
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });

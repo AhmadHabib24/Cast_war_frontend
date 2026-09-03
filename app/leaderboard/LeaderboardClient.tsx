@@ -5,6 +5,7 @@ import echo from '@/lib/echo';
 import toast from 'react-hot-toast';
 import { Metadata } from 'next';
 import { getSeoMetadata } from '@/lib/seo';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export async function generateMetadata(): Promise<Metadata> {
   return getSeoMetadata('/leaderboard');
@@ -18,7 +19,7 @@ export default function LeaderboardPage() {
         // Fetch top casts
         const fetchLeaderboard = async () => {
             try {
-                const res = await fetch('http://localhost:8000/api/v1/casts/leaderboard');
+                const res = await fetch(`${API_URL}/casts/leaderboard`);
                 const data = await res.json();
                 if (data.success) setCasts(data.data);
             } catch (err) {

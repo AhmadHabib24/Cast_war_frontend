@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { fetchApi } from '@/lib/api';
+import {  fetchApi , API_URL, BASE_URL } from '@/lib/api';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -42,7 +42,7 @@ export default function DashboardPage() {
                 const token = localStorage.getItem('token');
                 if (!token) return;
                 
-                const res = await fetch('http://localhost:8000/api/v1/dashboard', {
+                const res = await fetch(`${API_URL}/dashboard`, {
                     headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
                 });
                 const responseData = await res.json();

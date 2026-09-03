@@ -56,5 +56,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function WarriorDetailPage({ params }: Props) {
-    return <WarriorsDetailClient id={params.id} />;
+    return <WarriorsDetailClient />;
 }

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -18,7 +19,7 @@ export default function LoginPage() {
         setLoading(true);
         
         try {
-            const res = await fetch('http://localhost:8000/api/v1/auth/login', {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({ email, password })

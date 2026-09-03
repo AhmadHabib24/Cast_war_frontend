@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { fetchApi } from '@/lib/api';
+import {  fetchApi , API_URL, BASE_URL } from '@/lib/api';
 import toast from 'react-hot-toast';
 import { Wallet, Shield, X, Loader2, ArrowRight, Share2, ChevronDown, ChevronUp } from 'lucide-react';
 import { InstagramIcon, FacebookIcon } from '@/components/SocialIcons';
@@ -117,7 +117,7 @@ export default function CastProfilePage() {
         setLoadingWallet(true);
 
         try {
-            const res = await fetch('http://localhost:8000/api/v1/wallet', {
+            const res = await fetch(`${API_URL}/wallet`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -158,7 +158,7 @@ export default function CastProfilePage() {
             if (instagramUrl) formData.append('instagram_url', instagramUrl);
             if (facebookUrl) formData.append('facebook_url', facebookUrl);
 
-            const res = await fetch(`http://localhost:8000/api/v1/casts/${slug}/contribute`, {
+            const res = await fetch(`${API_URL}/casts/${slug}/contribute`, {
                 method: 'POST',
                 headers: { 
                     'Authorization': `Bearer ${token}`,
@@ -331,7 +331,7 @@ export default function CastProfilePage() {
                                 <div className="absolute top-0 left-0 w-1 h-full bg-[var(--color-metallic-gold)]"></div>
                                 <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-black text-gray-500 text-sm border-2 border-[var(--color-metallic-gold)] shadow-sm overflow-hidden">
                                     {warrior.profile?.avatar ? (
-                                        <img src={`http://localhost:8000/${warrior.profile.avatar.replace('public/', 'storage/')}`} alt={warrior.name} className="w-full h-full object-cover" />
+                                        <img src={`${BASE_URL}/${warrior.profile.avatar.replace('public/', 'storage/')}`} alt={warrior.name} className="w-full h-full object-cover" />
                                     ) : (
                                         <span>{idx + 1}</span>
                                     )}

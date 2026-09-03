@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Search, CheckCircle, XCircle, Clock, CreditCard, User, Hash, Calendar, FileText } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function AdminDepositsPage() {
     const [deposits, setDeposits] = useState<any[]>([]);
@@ -16,7 +17,7 @@ export default function AdminDepositsPage() {
     const fetchDeposits = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/admin/deposits', {
+            const res = await fetch(`${API_URL}/admin/deposits`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -76,7 +77,7 @@ export default function AdminDepositsPage() {
         setActionLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const url = `http://localhost:8000/api/v1/admin/deposits/${id}/${action}`;
+            const url = `${API_URL}/admin/deposits/${id}/${action}`;
             
             const bodyData: any = {};
             if (action === 'reject') {
@@ -249,8 +250,8 @@ export default function AdminDepositsPage() {
                                     <div className="mb-8">
                                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 flex items-center space-x-1.5"><FileText size={12}/> <span>Payment Receipt / Proof</span></p>
                                         <div className="bg-gray-50 border border-gray-200 p-2 rounded-xl text-center">
-                                            <a href={`http://localhost:8000/storage/${selectedDeposit.proof}`} target="_blank" rel="noreferrer" className="block max-h-64 overflow-hidden rounded-lg group relative">
-                                                <img src={`http://localhost:8000/storage/${selectedDeposit.proof}`} alt="Proof" className="w-auto mx-auto max-h-64 object-contain transition group-hover:opacity-75" />
+                                            <a href={`${BASE_URL}/storage/${selectedDeposit.proof}`} target="_blank" rel="noreferrer" className="block max-h-64 overflow-hidden rounded-lg group relative">
+                                                <img src={`${BASE_URL}/storage/${selectedDeposit.proof}`} alt="Proof" className="w-auto mx-auto max-h-64 object-contain transition group-hover:opacity-75" />
                                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
                                                     <span className="bg-white text-gray-900 px-4 py-2 rounded-full font-bold text-xs shadow-lg">Click to Enlarge</span>
                                                 </div>

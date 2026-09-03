@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Trophy, Shield, Swords, LogIn, LayoutDashboard } from 'lucide-react';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -28,7 +29,7 @@ export default function Navbar() {
                 } catch (e) {}
             }
             
-            fetch('http://localhost:8000/api/v1/wallet', {
+            fetch(`${API_URL}/wallet`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             })
             .then(res => res.json())

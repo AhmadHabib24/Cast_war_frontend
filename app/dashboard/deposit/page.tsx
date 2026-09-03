@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { fetchApi } from '@/lib/api';
+import {  fetchApi , API_URL, BASE_URL } from '@/lib/api';
 import { Upload, CheckSquare, Square, FileText, Image as ImageIcon, Plus, Wallet, Clock, CheckCircle, XCircle, ArrowUpRight, ArrowDownRight, Hash, Calendar, Loader2, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -33,10 +33,10 @@ export default function DepositDashboardPage() {
         try {
             const token = localStorage.getItem('token');
             const [walletRes, depositsRes] = await Promise.all([
-                fetch('http://localhost:8000/api/v1/wallet', {
+                fetch(`${API_URL}/wallet`, {
                     headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
                 }),
-                fetch('http://localhost:8000/api/v1/deposits', {
+                fetch(`${API_URL}/deposits`, {
                     headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
                 })
             ]);
@@ -57,7 +57,7 @@ export default function DepositDashboardPage() {
     const loadMethods = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/payment-methods', {
+            const res = await fetch(`${API_URL}/payment-methods`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -127,7 +127,7 @@ export default function DepositDashboardPage() {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/deposits', {
+            const res = await fetch(`${API_URL}/deposits`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' },
                 body: formData
@@ -372,7 +372,7 @@ export default function DepositDashboardPage() {
                                             {selectedMethod.qr_code_path && (
                                                 <div className="flex-shrink-0 bg-gray-50 p-1 rounded border border-gray-100 text-center">
                                                     <img 
-                                                        src={`http://localhost:8000/storage/${selectedMethod.qr_code_path}`} 
+                                                        src={`${BASE_URL}/storage/${selectedMethod.qr_code_path}`} 
                                                         alt="QR" 
                                                         className="w-12 h-12 object-contain mx-auto"
                                                     />

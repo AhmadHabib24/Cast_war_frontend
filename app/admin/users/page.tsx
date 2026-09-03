@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Search, Ban, CheckCircle } from 'lucide-react';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { toast } from 'react-hot-toast';
+import { API_URL, BASE_URL } from '@/lib/api';
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState<any[]>([]);
@@ -16,7 +17,7 @@ export default function AdminUsersPage() {
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/admin/users', {
+            const res = await fetch(`${API_URL}/admin/users`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -47,7 +48,7 @@ export default function AdminUsersPage() {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8000/api/v1/admin/users/${id}/toggle-status`, { 
+            const res = await fetch(`${API_URL}/admin/users/${id}/toggle-status`, { 
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { fetchApi } from '@/lib/api';
+import {  fetchApi , API_URL, BASE_URL } from '@/lib/api';
 import { Settings, Plus, Edit, Trash2, CheckCircle, XCircle, Image as ImageIcon, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -19,7 +19,7 @@ export default function AdminWalletSettingsPage() {
     const fetchMethods = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/v1/admin/payment-methods', {
+            const res = await fetch(`${API_URL}/admin/payment-methods`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             const data = await res.json();
@@ -54,7 +54,7 @@ export default function AdminWalletSettingsPage() {
     const openEditModal = (method: any) => {
         setCurrentMethod({ ...method });
         setQrFile(null);
-        setQrPreview(method.qr_code_path ? `http://localhost:8000/storage/${method.qr_code_path}` : null);
+        setQrPreview(method.qr_code_path ? `${BASE_URL}/storage/${method.qr_code_path}` : null);
         setIsEditing(true);
     };
 
@@ -90,8 +90,8 @@ export default function AdminWalletSettingsPage() {
         try {
             const token = localStorage.getItem('token');
             const url = currentMethod.id 
-                ? `http://localhost:8000/api/v1/admin/payment-methods/${currentMethod.id}`
-                : 'http://localhost:8000/api/v1/admin/payment-methods';
+                ? `${API_URL}/admin/payment-methods/${currentMethod.id}`
+                : `${API_URL}/admin/payment-methods`;
             
             // For Laravel PUT with FormData, we use POST and append _method=PUT
             if (currentMethod.id) {
@@ -149,7 +149,7 @@ export default function AdminWalletSettingsPage() {
     const executeDelete = async (id: number) => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8000/api/v1/admin/payment-methods/${id}`, {
+            const res = await fetch(`${API_URL}/admin/payment-methods/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
