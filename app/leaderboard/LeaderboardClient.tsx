@@ -19,7 +19,7 @@ export default function LeaderboardPage() {
         // Fetch top casts
         const fetchLeaderboard = async () => {
             try {
-                const res = await fetch(`${API_URL}/casts/leaderboard`);
+                const res = await fetch(`${API_URL}/leaderboard`);
                 const data = await res.json();
                 if (data.success) setCasts(data.data);
             } catch (err) {

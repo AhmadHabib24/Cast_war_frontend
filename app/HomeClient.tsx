@@ -20,7 +20,7 @@ export default function Home() {
     useEffect(() => {
         const fetchTopCasts = async () => {
             try {
-                const res = await fetch(`${API_URL}/casts/leaderboard`);
+                const res = await fetch(`${API_URL}/leaderboard`);
                 const data = await res.json();
                 if (data.success) {
                     setCasts(data.data.slice(0, 10)); // Top 10 only
