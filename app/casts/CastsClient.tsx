@@ -73,28 +73,28 @@ export default function CastDirectoryPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredCasts.map((cast) => (
                             <Link key={cast.id} href={`/casts/${cast.slug}`} className="block group h-full">
-                                <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl border border-[var(--color-border-gray)] transition-all transform group-hover:-translate-y-2 h-full flex flex-col">
-                                    <div className="flex justify-between items-start mb-4 gap-2">
-                                        <h2 className="text-2xl font-black text-[var(--color-brand-black)] group-hover:text-[var(--color-rich-gold)] transition-colors leading-tight">
+                                <div className="bg-white rounded-3xl p-5 md:p-6 shadow-sm hover:shadow-xl border border-[var(--color-border-gray)] transition-all transform group-hover:-translate-y-1 h-full flex flex-col">
+                                    <div className="flex justify-between items-start mb-3 gap-2">
+                                        <h2 className="text-xl font-black text-[var(--color-brand-black)] group-hover:text-[var(--color-rich-gold)] transition-colors leading-tight">
                                             {cast.name}
                                         </h2>
                                         {cast.total_points === 0 ? (
-                                            <span className="bg-gray-100 text-gray-500 border border-gray-200 text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-wider whitespace-nowrap">
+                                            <span className="bg-gray-100 text-gray-500 border border-gray-200 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider whitespace-nowrap">
                                                 Unranked
                                             </span>
                                         ) : (
-                                            <span className="bg-[var(--color-brand-black)] text-[var(--color-metallic-gold)] text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow-sm">
+                                            <span className="bg-[var(--color-brand-black)] text-[var(--color-metallic-gold)] text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider whitespace-nowrap shadow-sm">
                                                 RANK #{cast.current_rank || '?'}
                                             </span>
                                         )}
                                     </div>
-                                    <p className="text-[var(--color-muted-text)] text-sm mb-8 line-clamp-2 font-medium flex-grow">
+                                    <p className="text-[var(--color-muted-text)] text-xs mb-5 line-clamp-2 font-medium flex-grow leading-relaxed">
                                         {cast.description || `The legendary ${cast.name} community. Prove your power.`}
                                     </p>
-                                    <div className="flex justify-between items-center border-t border-gray-100 pt-5 mt-auto">
-                                        <span className="text-[var(--color-charcoal)] text-xs font-bold uppercase tracking-widest">Total Power</span>
-                                        <span className={`text-xl font-black ${cast.total_points > 0 ? 'text-[var(--color-rich-gold)]' : 'text-gray-400'}`}>
-                                            {cast.total_points.toLocaleString()} <span className="text-sm">pts</span>
+                                    <div className="flex justify-between items-center border-t border-gray-100 pt-4 mt-auto">
+                                        <span className="text-[var(--color-charcoal)] text-[10px] font-bold uppercase tracking-widest">Total Power</span>
+                                        <span className={`text-lg font-black ${cast.total_points > 0 ? 'text-[var(--color-rich-gold)]' : 'text-gray-400'}`}>
+                                            {cast.total_points.toLocaleString()} <span className="text-xs">pts</span>
                                         </span>
                                     </div>
                                 </div>

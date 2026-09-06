@@ -59,70 +59,100 @@ export default function LeaderboardPage() {
         };
     }, []);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 20;
+
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentCasts = casts.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(casts.length / itemsPerPage);
+
     return (
         <div className="min-h-screen bg-[var(--color-off-white)] pt-32 pb-20">
-            <div className="max-w-4xl mx-auto px-6">
+            <div className="max-w-5xl mx-auto px-6 mt-6 md:mt-0">
                 
                 <div className="text-center space-y-4 mb-16">
                     <h1 className="text-4xl md:text-5xl font-black text-[var(--color-brand-black)] uppercase tracking-tight">Global Leaderboard</h1>
                     <p className="text-[var(--color-muted-text)] font-medium text-lg">The definitive ranking of power and legacy in Pakistan.</p>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-xl border border-[var(--color-border-gray)] overflow-hidden">
-                    <div className="w-full">
-                        {/* Header Row */}
-                            <div className="bg-[var(--color-brand-black)] text-white px-4 md:px-8 py-5 flex items-center font-bold text-xs uppercase tracking-widest">
-                                <div className="w-16 md:w-20">Rank</div>
-                                <div className="flex-1">Cast / Biradari</div>
-                                <div className="w-32 md:w-40 text-right text-[var(--color-metallic-gold)]">Total Power</div>
-                            </div>
+                {loading ? (
+                    <div className="p-12 text-center text-[var(--color-muted-text)] font-bold animate-pulse text-lg">
+                        Tracking war movements...
+                    </div>
+                ) : (
+                    <>
+                        <div className="space-y-4">
+                            {currentCasts.map((cast: any, idx: number) => {
+                                const actualRank = indexOfFirstItem + idx + 1;
+                                const isFirst = actualRank === 1;
+                                const isSecond = actualRank === 2;
+                                const isThird = actualRank === 3;
 
-                            {/* Loading State */}
-                            {loading && (
-                                <div className="p-12 text-center text-[var(--color-muted-text)] font-bold animate-pulse">
-                                    Tracking war movements...
-                                </div>
-                            )}
-
-                            {/* Leaderboard Rows */}
-                            {!loading && (
-                                <div className="divide-y divide-gray-100">
-                                    {casts.map((cast: any, idx: number) => {
-                                        const isFirst = idx === 0;
-                                        const isSecond = idx === 1;
-                                        const isThird = idx === 2;
-
-                                        return (
-                                            <div 
-                                                key={cast.id} 
-                                                className={`px-4 md:px-8 py-6 flex items-center transition-all hover:bg-gray-50 ${isFirst ? 'bg-[var(--color-metallic-gold)]/5' : ''}`}
-                                            >
-                                                <div className="w-16 md:w-20 flex items-center">
-                                                    {isFirst && <span className="text-2xl md:text-3xl drop-shadow-md">👑</span>}
-                                                    {isSecond && <span className="text-xl md:text-2xl drop-shadow-md text-gray-400">🥈</span>}
-                                                    {isThird && <span className="text-xl md:text-2xl drop-shadow-md text-orange-400">🥉</span>}
-                                                    {!isFirst && !isSecond && !isThird && (
-                                                        <span className="text-lg md:text-xl font-black text-gray-400">#{idx + 1}</span>
-                                                    )}
-                                                </div>
-                                                
-                                                <div className="flex-1">
-                                                    <div className="font-black text-lg md:text-xl text-[var(--color-brand-black)]">{cast.name}</div>
-                                                    <div className="text-[10px] md:text-xs text-[var(--color-muted-text)] mt-1 font-medium">{cast.contributors_count} warriors fighting</div>
-                                                </div>
-
-                                                <div className="w-32 md:w-40 text-right">
-                                                    <span className={`font-black text-xl md:text-2xl ${isFirst ? 'text-[var(--color-rich-gold)]' : 'text-gray-900'}`}>
-                                                        {cast.total_points.toLocaleString()} <span className="text-[10px] md:text-sm">pts</span>
-                                                    </span>
+                                return (
+                                    <div 
+                                        key={cast.id} 
+                                        className="w-full flex items-center justify-between p-4 md:px-8 md:py-5 bg-white rounded-full shadow-sm border border-[var(--color-border-gray)] transition-all duration-300 hover:border-[var(--color-metallic-gold)] hover:shadow-md animate-fade-in-up"
+                                    >
+                                        <div className="flex items-center gap-4 md:gap-6 w-1/2">
+                                            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-black text-base md:text-lg shadow-sm ${
+                                                isFirst ? 'bg-yellow-400 text-white shadow-yellow-200' : 
+                                                isSecond ? 'bg-gray-300 text-white shadow-gray-200' : 
+                                                isThird ? 'bg-orange-400 text-white shadow-orange-200' : 'bg-gray-100 text-[var(--color-muted-text)]'
+                                            }`}>
+                                                #{actualRank}
+                                            </div>
+                                            <div>
+                                                <div className="font-black text-lg md:text-2xl text-[var(--color-brand-black)] truncate max-w-[150px] md:max-w-[400px]">{cast.name}</div>
+                                                <div className="text-[10px] md:text-xs text-[var(--color-muted-text)] font-medium mt-0.5">
+                                                    {cast.contributors_count} warriors fighting
                                                 </div>
                                             </div>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                    </div>
-                </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center gap-4 md:gap-8 justify-end w-1/2">
+                                            <div className="text-right">
+                                                <span className={`font-black text-xl md:text-3xl block ${isFirst ? 'text-[var(--color-rich-gold)]' : 'text-gray-800'}`}>
+                                                    {cast.total_points.toLocaleString()} <span className="text-xs md:text-sm font-bold text-gray-400">pts</span>
+                                                </span>
+                                            </div>
+                                            <a 
+                                                href={`/casts/${cast.id}`}
+                                                className="px-5 py-2 md:px-8 md:py-3 bg-[var(--color-brand-black)]/5 hover:bg-[var(--color-metallic-gold)] text-[var(--color-brand-black)] hover:text-white font-black text-xs md:text-sm uppercase tracking-wider rounded-full transition-all shadow-sm whitespace-nowrap cursor-pointer"
+                                            >
+                                                Boost
+                                            </a>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {/* Pagination Controls */}
+                        {totalPages > 1 && (
+                            <div className="mt-12 flex items-center justify-center gap-4">
+                                <button 
+                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                    disabled={currentPage === 1}
+                                    className="px-6 py-3 rounded-full font-bold text-sm bg-white border border-[var(--color-border-gray)] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors shadow-sm"
+                                >
+                                    Previous
+                                </button>
+                                <span className="text-[var(--color-muted-text)] font-bold text-sm">
+                                    Page {currentPage} of {totalPages}
+                                </span>
+                                <button 
+                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                    disabled={currentPage === totalPages}
+                                    className="px-6 py-3 rounded-full font-bold text-sm bg-white border border-[var(--color-border-gray)] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors shadow-sm"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        )}
+                    </>
+                )}
             </div>
         </div>
     );
