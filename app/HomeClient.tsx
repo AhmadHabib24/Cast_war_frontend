@@ -160,6 +160,73 @@ export default function Home() {
                 </div>
             </div>
 
+            {/* SEO Content Section - How It Works */}
+            <section className="w-full max-w-6xl mx-auto mt-32 px-6 relative z-10" aria-labelledby="how-it-works">
+                <div className="text-center mb-12">
+                    <h2 id="how-it-works" className="text-3xl md:text-4xl font-black text-[var(--color-brand-black)] uppercase tracking-tight">How to Boost Your Biradari</h2>
+                    <p className="text-[var(--color-muted-text)] font-medium text-lg mt-3 max-w-2xl mx-auto">
+                        Joining the top Pakistani biradari ranking is simple. Follow these steps to elevate your cast's legacy on the global stage.
+                    </p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* Step 1 */}
+                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-[var(--color-border-gray)] text-center relative pt-12 hover:border-[var(--color-metallic-gold)] transition-colors group">
+                        <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-[var(--color-brand-black)] text-[var(--color-metallic-gold)] rounded-full flex items-center justify-center font-black text-xl shadow-lg border-4 border-white group-hover:scale-110 transition-transform">1</div>
+                        <h3 className="text-xl font-black text-[var(--color-brand-black)] mb-3">Find Your Cast</h3>
+                        <p className="text-[var(--color-muted-text)] font-medium leading-relaxed">Search for your specific Pakistani cast or biradari (like Jutt, Rajput, Arain, or Gujjar) in our directory.</p>
+                    </div>
+                    {/* Step 2 */}
+                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-[var(--color-border-gray)] text-center relative pt-12 hover:border-[var(--color-metallic-gold)] transition-colors group">
+                        <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-[var(--color-brand-black)] text-[var(--color-metallic-gold)] rounded-full flex items-center justify-center font-black text-xl shadow-lg border-4 border-white group-hover:scale-110 transition-transform">2</div>
+                        <h3 className="text-xl font-black text-[var(--color-brand-black)] mb-3">Boost with Power</h3>
+                        <p className="text-[var(--color-muted-text)] font-medium leading-relaxed">Contribute to your cast's war chest. Every contribution directly increases your community's total power score.</p>
+                    </div>
+                    {/* Step 3 */}
+                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-[var(--color-border-gray)] text-center relative pt-12 hover:border-[var(--color-metallic-gold)] transition-colors group">
+                        <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-[var(--color-brand-black)] text-[var(--color-metallic-gold)] rounded-full flex items-center justify-center font-black text-xl shadow-lg border-4 border-white group-hover:scale-110 transition-transform">3</div>
+                        <h3 className="text-xl font-black text-[var(--color-brand-black)] mb-3">Dominate Rankings</h3>
+                        <p className="text-[var(--color-muted-text)] font-medium leading-relaxed">Watch in real-time as your biradari climbs the official Pakistan cast leaderboard to claim the #1 spot.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* SEO Content Section - About */}
+            <article className="w-full max-w-4xl mx-auto mt-24 px-6 text-center relative z-10" aria-labelledby="about-cast-war">
+                <h2 id="about-cast-war" className="text-3xl md:text-4xl font-black text-[var(--color-brand-black)] uppercase tracking-tight mb-6">The Ultimate Pakistan Cast Leaderboard</h2>
+                <div className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-[var(--color-border-gray)] text-left space-y-4">
+                    <p className="text-[var(--color-charcoal)] leading-relaxed font-medium">
+                        Welcome to <strong>Cast War</strong>, the definitive platform for tracking the <em>top casts in Pakistan</em>. For generations, the cultural fabric of our society has been woven with the rich histories, legacies, and pride of various biradaris and casts.
+                    </p>
+                    <p className="text-[var(--color-charcoal)] leading-relaxed font-medium">
+                        Whether you belong to the agricultural powerhouses, the historical warrior lineages, or the influential business communities, this platform serves as a modern, digital battleground. Our <strong>online cast ranking</strong> system is fully transparent, allowing users from across the globe to contribute power to their respective communities.
+                    </p>
+                    <p className="text-[var(--color-charcoal)] leading-relaxed font-medium">
+                        The rules are simple: the cast with the most dedicated warriors and the largest war chest reigns supreme. Will your biradari secure its legacy at the top of the leaderboard today?
+                    </p>
+                </div>
+            </article>
+
+            {/* SEO Content Section - FAQ */}
+            <section className="w-full max-w-4xl mx-auto mt-24 px-6 relative z-10 mb-10" aria-labelledby="faq">
+                <div className="text-center mb-10">
+                    <h2 id="faq" className="text-3xl md:text-4xl font-black text-[var(--color-brand-black)] uppercase tracking-tight">Frequently Asked Questions</h2>
+                </div>
+                <div className="space-y-4">
+                    {[
+                        { q: "What is the Pakistani biradari ranking system?", a: "It is a competitive, real-time leaderboard where users can financially boost their specific cast to prove their community's dominance and power." },
+                        { q: "How are the top casts in Pakistan determined here?", a: "Rankings are strictly based on the 'Total Power' (pts) accumulated. Power is generated when verified users contribute to their cast's war chest." },
+                        { q: "Is my contribution safe and secure?", a: "Yes. All deposits are processed through highly secure, encrypted payment gateways. Every transaction is logged transparently on the platform." },
+                        { q: "Can I support my cast anonymously?", a: "Absolutely. While you can choose to be displayed in the Hall of Warriors to show your pride, you also have the option to boost your cast entirely anonymously." }
+                    ].map((faq, i) => (
+                        <div key={i} className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-[var(--color-border-gray)] hover:shadow-md transition-shadow">
+                            <h3 className="text-lg md:text-xl font-black text-[var(--color-brand-black)] mb-2">{faq.q}</h3>
+                            <p className="text-[var(--color-muted-text)] font-medium leading-relaxed">{faq.a}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
         </div>
     );
 }
