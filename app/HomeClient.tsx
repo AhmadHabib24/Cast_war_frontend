@@ -69,7 +69,7 @@ export default function Home() {
             </div>
 
             {/* Top 10 Casts (Pill-shaped cards) */}
-            <div className="w-full max-w-4xl mx-auto mt-24 px-6 relative z-10">
+            <div className="w-full max-w-5xl mx-auto mt-24 px-6 relative z-10">
                 <div className="text-center mb-10">
                     <h2 className="text-3xl font-black text-[var(--color-brand-black)] uppercase tracking-tight">Today's Top Ranking</h2>
                     <Link href="/leaderboard" className="text-[var(--color-rich-gold)] text-sm font-bold hover:underline mt-2 inline-block">See all &gt;</Link>
