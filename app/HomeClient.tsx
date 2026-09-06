@@ -128,17 +128,41 @@ export default function Home() {
                 )}
             </div>
 
-            {/* Visual Divider / Slider Placeholder */}
-            <div className="w-full max-w-6xl mx-auto mt-20 px-6">
-                <div className="bg-[var(--color-brand-black)] rounded-2xl h-56 md:h-80 flex items-center justify-center overflow-hidden relative shadow-xl">
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="War Banner" className="w-full h-full object-cover opacity-40" />
-                    <div className="absolute z-20 left-8 md:left-16">
-                        <h2 className="text-2xl md:text-4xl font-black text-white leading-snug">
-                            Will your <span className="text-[var(--color-metallic-gold)]">Biradari</span><br/> reign supreme?
-                        </h2>
+            {/* Image Slider (Cast War Theme) */}
+            <div className="w-full my-20 overflow-hidden relative z-10 bg-[var(--color-brand-black)] py-12 border-y border-[var(--color-metallic-gold)]/20">
+                <div className="text-center mb-8">
+                    <h2 className="text-2xl md:text-3xl font-black text-[var(--color-metallic-gold)] uppercase tracking-tight px-4" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                        Will your Biradari reign supreme?
+                    </h2>
+                </div>
+                <div className="flex w-[200%] md:w-[150%] lg:w-[120%] animate-scroll">
+                    {/* First set of images */}
+                    <div className="flex w-1/2 justify-around px-2">
+                        <img src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&w=600&q=80" alt="Warrior" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
+                        <img src="https://images.unsplash.com/photo-1599839619722-39751411ea63?auto=format&fit=crop&w=600&q=80" alt="Castle" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
+                        <img src="https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=600&q=80" alt="Battle" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
+                        <img src="https://images.unsplash.com/photo-1579562912448-038283e71d37?auto=format&fit=crop&w=600&q=80" alt="Legacy" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
+                    </div>
+                    {/* Second set of images for infinite scroll effect */}
+                    <div className="flex w-1/2 justify-around px-2">
+                        <img src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&w=600&q=80" alt="Warrior" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
+                        <img src="https://images.unsplash.com/photo-1599839619722-39751411ea63?auto=format&fit=crop&w=600&q=80" alt="Castle" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
+                        <img src="https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=600&q=80" alt="Battle" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
+                        <img src="https://images.unsplash.com/photo-1579562912448-038283e71d37?auto=format&fit=crop&w=600&q=80" alt="Legacy" className="h-40 md:h-56 lg:h-72 w-64 md:w-80 lg:w-96 rounded-2xl object-cover shadow-[0_0_15px_rgba(212,175,55,0.2)] opacity-70 hover:opacity-100 transition-all duration-500 mx-2 md:mx-4 border border-[var(--color-metallic-gold)]/30 hover:border-[var(--color-metallic-gold)]" />
                     </div>
                 </div>
+                <style>{`
+                    @keyframes scroll {
+                        0% { transform: translateX(0); }
+                        100% { transform: translateX(-50%); }
+                    }
+                    .animate-scroll {
+                        animation: scroll 25s linear infinite;
+                    }
+                    .animate-scroll:hover {
+                        animation-play-state: paused;
+                    }
+                `}</style>
             </div>
 
             {/* Features Section */}
