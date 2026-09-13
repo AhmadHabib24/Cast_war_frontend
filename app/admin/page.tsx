@@ -66,18 +66,18 @@ export default function AdminDashboardPage() {
             <div className="space-y-8 animate-pulse">
                 <div className="flex items-center justify-between">
                     <div>
-                        <div className="h-8 bg-gray-200 rounded w-64 mb-2"></div>
-                        <div className="h-4 bg-gray-200 rounded w-96"></div>
+                        <div className="h-8 bg-zinc-800 rounded w-64 mb-2"></div>
+                        <div className="h-4 bg-zinc-800 rounded w-96"></div>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {[1, 2, 3, 4, 5].map((i) => (
-                        <div key={i} className="bg-white rounded-2xl border border-gray-100 p-5 flex items-center space-x-4">
-                            <div className="w-12 h-12 rounded-full bg-gray-200 shrink-0"></div>
+                        <div key={i} className="bg-zinc-900/50 rounded-2xl border border-zinc-800 p-5 flex items-center space-x-4">
+                            <div className="w-12 h-12 rounded-full bg-zinc-800 shrink-0"></div>
                             <div className="w-full">
-                                <div className="h-3 bg-gray-200 rounded w-20 mb-2"></div>
-                                <div className="h-6 bg-gray-200 rounded w-16"></div>
+                                <div className="h-3 bg-zinc-800 rounded w-20 mb-2"></div>
+                                <div className="h-6 bg-zinc-800 rounded w-16"></div>
                             </div>
                         </div>
                     ))}
@@ -85,9 +85,9 @@ export default function AdminDashboardPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="bg-white rounded-2xl border border-gray-100 p-6">
-                            <div className="h-4 bg-gray-200 rounded w-48 mb-6"></div>
-                            <div className="h-64 bg-gray-100 rounded-lg w-full"></div>
+                        <div key={i} className="bg-zinc-900/50 rounded-2xl border border-zinc-800 p-6">
+                            <div className="h-4 bg-zinc-800 rounded w-48 mb-6"></div>
+                            <div className="h-64 bg-zinc-800/50 rounded-lg w-full"></div>
                         </div>
                     ))}
                 </div>
@@ -95,7 +95,7 @@ export default function AdminDashboardPage() {
         );
     }
 
-    if (!data) return <div>Failed to load analytics data.</div>;
+    if (!data) return <div className="text-zinc-400">Failed to load analytics data.</div>;
 
     const { kpis, charts } = data;
 
@@ -108,7 +108,8 @@ export default function AdminDashboardPage() {
             title: { display: false }
         },
         scales: {
-            y: { beginAtZero: true }
+            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a1a1aa' } },
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a1a1aa' } }
         }
     };
 
@@ -117,6 +118,10 @@ export default function AdminDashboardPage() {
         maintainAspectRatio: false,
         plugins: {
             legend: { display: false }
+        },
+        scales: {
+            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a1a1aa' } },
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a1a1aa' } }
         }
     };
 
@@ -124,7 +129,7 @@ export default function AdminDashboardPage() {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { position: 'right' as const }
+            legend: { position: 'right' as const, labels: { color: '#a1a1aa' } }
         }
     };
 
@@ -132,60 +137,60 @@ export default function AdminDashboardPage() {
         <div className="space-y-8">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-900 tracking-tight">Platform Analytics</h1>
-                    <p className="text-sm text-gray-500 font-medium mt-1">Real-time overview of the Cast War battlefield.</p>
+                    <h1 className="text-3xl font-black text-white tracking-tight">Platform Analytics</h1>
+                    <p className="text-sm text-zinc-400 font-medium mt-1">Real-time overview of the Cast War battlefield.</p>
                 </div>
             </div>
 
             {/* KPIs Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center space-x-4">
-                    <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                        <Users className="text-blue-500" size={24} />
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-5 flex items-center space-x-4 hover:border-zinc-700 transition">
+                    <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0">
+                        <Users className="text-blue-400" size={24} />
                     </div>
                     <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Users</p>
-                        <p className="text-2xl font-black text-gray-900 leading-none">{kpis.total_users.toLocaleString()}</p>
+                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Users</p>
+                        <p className="text-2xl font-black text-white leading-none">{kpis.total_users.toLocaleString()}</p>
                     </div>
                 </div>
                 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center space-x-4">
-                    <div className="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center shrink-0">
-                        <Swords className="text-purple-500" size={24} />
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-5 flex items-center space-x-4 hover:border-zinc-700 transition">
+                    <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center shrink-0">
+                        <Swords className="text-purple-400" size={24} />
                     </div>
                     <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Active Casts</p>
-                        <p className="text-2xl font-black text-gray-900 leading-none">{kpis.active_casts.toLocaleString()}</p>
+                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1">Active Casts</p>
+                        <p className="text-2xl font-black text-white leading-none">{kpis.active_casts.toLocaleString()}</p>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center space-x-4">
-                    <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
-                        <Wallet className="text-emerald-500" size={24} />
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-5 flex items-center space-x-4 hover:border-zinc-700 transition">
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+                        <Wallet className="text-emerald-400" size={24} />
                     </div>
                     <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Economy</p>
-                        <p className="text-xl font-black text-emerald-600 leading-none">{formatMoney(kpis.total_economy)}</p>
+                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Economy</p>
+                        <p className="text-xl font-black text-emerald-400 leading-none">{formatMoney(kpis.total_economy)}</p>
                     </div>
                 </div>
                 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center space-x-4">
-                    <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center shrink-0">
-                        <CreditCard className="text-orange-500" size={24} />
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-5 flex items-center space-x-4 hover:border-zinc-700 transition">
+                    <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0">
+                        <CreditCard className="text-orange-400" size={24} />
                     </div>
                     <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Pending Dep.</p>
-                        <p className="text-2xl font-black text-gray-900 leading-none">{kpis.pending_deposits.toLocaleString()}</p>
+                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1">Pending Dep.</p>
+                        <p className="text-2xl font-black text-white leading-none">{kpis.pending_deposits.toLocaleString()}</p>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center space-x-4">
-                    <div className="w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center shrink-0">
-                        <Activity className="text-rose-500" size={24} />
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-5 flex items-center space-x-4 hover:border-zinc-700 transition">
+                    <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center shrink-0">
+                        <Activity className="text-rose-400" size={24} />
                     </div>
                     <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Open Tickets</p>
-                        <p className="text-2xl font-black text-gray-900 leading-none">{kpis.open_tickets.toLocaleString()}</p>
+                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1">Open Tickets</p>
+                        <p className="text-2xl font-black text-white leading-none">{kpis.open_tickets.toLocaleString()}</p>
                     </div>
                 </div>
             </div>
@@ -194,9 +199,9 @@ export default function AdminDashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
                 {/* Revenue Trend */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6 flex items-center">
-                        <Activity size={16} className="mr-2 text-emerald-500" /> 7-Day Revenue Trend
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-6">
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center">
+                        <Activity size={16} className="mr-2 text-emerald-400" /> 7-Day Revenue Trend
                     </h3>
                     <div className="h-72">
                         <Line 
@@ -217,9 +222,9 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Platform Health */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6 flex items-center">
-                        <ShieldAlert size={16} className="mr-2 text-orange-500" /> Pending Workload
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-6">
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center">
+                        <ShieldAlert size={16} className="mr-2 text-orange-400" /> Pending Workload
                     </h3>
                     <div className="h-72">
                         <Bar 
@@ -243,9 +248,9 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Ticket Distribution */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6 flex items-center">
-                        <CheckCircle2 size={16} className="mr-2 text-blue-500" /> Ticket Status Distribution
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-6">
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center">
+                        <CheckCircle2 size={16} className="mr-2 text-blue-400" /> Ticket Status Distribution
                     </h3>
                     <div className="h-64">
                         <Doughnut 
@@ -267,9 +272,9 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Top Casts */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6 flex items-center">
-                        <Trophy size={16} className="mr-2 text-[var(--color-metallic-gold)]" /> Top 5 Casts (Power)
+                <div className="bg-zinc-900/50 rounded-2xl shadow-sm border border-zinc-800 p-6">
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center">
+                        <Trophy size={16} className="mr-2 text-amber-500" /> Top 5 Casts (Power)
                     </h3>
                     <div className="h-64">
                         <Pie 
@@ -279,13 +284,14 @@ export default function AdminDashboardPage() {
                                 datasets: [{
                                     data: charts.top_casts.data,
                                     backgroundColor: [
-                                        'rgba(212, 175, 55, 0.8)',  // Gold
-                                        'rgba(192, 192, 192, 0.8)', // Silver
-                                        'rgba(205, 127, 50, 0.8)',  // Bronze
-                                        'rgba(71, 85, 105, 0.8)',   // Slate
-                                        'rgba(148, 163, 184, 0.8)', // Slate light
+                                        'rgba(245, 158, 11, 0.8)',  // Amber (Gold)
+                                        'rgba(161, 161, 170, 0.8)', // Zinc 400 (Silver)
+                                        'rgba(180, 83, 9, 0.8)',    // Amber 700 (Bronze)
+                                        'rgba(63, 63, 70, 0.8)',    // Zinc 700
+                                        'rgba(82, 82, 91, 0.8)',    // Zinc 600
                                     ],
-                                    borderWidth: 0
+                                    borderWidth: 1,
+                                    borderColor: '#18181b' // Zinc 900
                                 }]
                             }} 
                         />

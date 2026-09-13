@@ -42,16 +42,16 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
         <RealtimeContext.Provider value={{ notifications }}>
             {children}
             {/* Live Toasts Overlay */}
-            <div className="fixed bottom-24 md:bottom-8 right-4 z-50 flex flex-col gap-2">
+            <div className="fixed bottom-24 md:bottom-8 left-4 md:left-6 z-50 flex flex-col gap-2 pointer-events-none">
                 {notifications.map((note) => (
                     <div 
                         key={note.id} 
-                        className="bg-[var(--color-brand-black)] text-[var(--color-metallic-gold)] border border-[var(--color-metallic-gold)] px-4 py-3 rounded-xl shadow-[0_10px_40px_rgba(212,175,55,0.3)] animate-[slideIn_0.3s_ease-out] font-bold flex items-center space-x-3 pointer-events-auto"
+                        className="bg-zinc-950/90 backdrop-blur-md text-white border border-amber-500/40 px-4 py-3 rounded-xl shadow-[0_10px_40px_rgba(245,158,11,0.2)] animate-[slideIn_0.3s_ease-out] font-bold flex items-center space-x-3 pointer-events-auto max-w-sm"
                     >
-                        <span className="flex-1">{note.text}</span>
+                        <span className="flex-1 text-sm">{note.text}</span>
                         <button 
                             onClick={() => removeNotification(note.id)}
-                            className="text-gray-400 hover:text-white transition-colors"
+                            className="text-zinc-500 hover:text-white transition-colors p-1"
                         >
                             ✕
                         </button>
@@ -61,7 +61,7 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
             
             <style jsx global>{`
                 @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
+                    from { transform: translateX(-100%); opacity: 0; }
                     to { transform: translateX(0); opacity: 1; }
                 }
             `}</style>

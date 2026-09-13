@@ -96,7 +96,7 @@ export default function BoostCastPage() {
                             <span className="text-xs text-[var(--color-muted-text)] font-bold uppercase tracking-wider block mb-1">Available War Chest</span>
                             <span className="text-2xl font-black text-[var(--color-brand-black)]">PKR {walletBalance.toLocaleString()}</span>
                         </div>
-                        <button onClick={() => router.push('/dashboard/deposit')} className="text-xs font-bold text-[var(--color-metallic-gold)] hover:text-[var(--color-rich-gold)] uppercase tracking-wider underline">
+                        <button onClick={() => router.push('/deposit')} className="text-xs font-bold text-[var(--color-metallic-gold)] hover:text-[var(--color-rich-gold)] uppercase tracking-wider underline">
                             Add Funds
                         </button>
                     </div>

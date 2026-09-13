@@ -32,10 +32,10 @@ export default function AIChatbot() {
         }
     }, [messages, isOpen]);
 
-    const handleSend = () => {
-        if (!input.trim()) return;
+    const handleSendText = (textToSend: string) => {
+        if (!textToSend.trim()) return;
 
-        const userMsg: Message = { id: Date.now().toString(), text: input, sender: 'user' };
+        const userMsg: Message = { id: Date.now().toString(), text: textToSend, sender: 'user' };
         setMessages(prev => [...prev, userMsg]);
         setInput('');
 
@@ -46,7 +46,7 @@ export default function AIChatbot() {
 
             if (query.includes('how to play') || query.includes('concept') || query.includes('what is')) {
                 botResponse = "Cast War is a gamified contribution platform where factions (Casts) battle for dominance. Every PKR 1 contributed equals 1 Power Point. The Cast with the most power ranks #1!";
-            } else if (query.includes('deposit') || query.includes('money') || query.includes('wallet') || query.includes('pay')) {
+            } else if (query.includes('deposit') || query.includes('money') || query.includes('wallet') || query.includes('pay') || query.includes('add funds')) {
                 botResponse = "To contribute to a Cast, you must first add funds to your Wallet. Go to your Wallet, click 'Add Funds', submit a screenshot of your transfer, and wait for admin approval.";
             } else if (query.includes('overtake') || query.includes('rank') || query.includes('bid')) {
                 botResponse = "To overtake a rival cast, click the '🚀 Bid to Overtake' button on your Cast's page. It will automatically calculate the exact amount needed to beat the cast directly above you!";
@@ -59,6 +59,10 @@ export default function AIChatbot() {
             const botMsg: Message = { id: (Date.now() + 1).toString(), text: botResponse, sender: 'bot' };
             setMessages(prev => [...prev, botMsg]);
         }, 600);
+    };
+
+    const handleSend = () => {
+        handleSendText(input);
     };
 
     const handlePointerDown = (e: React.PointerEvent) => {
@@ -112,7 +116,7 @@ export default function AIChatbot() {
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
                     onClick={handleButtonClick}
-                    className="w-14 h-14 bg-gradient-to-br from-[var(--color-metallic-gold)] to-[var(--color-rich-gold)] text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform duration-300 cursor-move"
+                    className="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 text-black rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform duration-300 cursor-move"
                 >
                     <MessageCircle size={28} />
                 </button>
@@ -124,21 +128,25 @@ export default function AIChatbot() {
                     
                     {/* Header */}
                     <div 
-                        className="bg-gradient-to-r from-[var(--color-brand-black)] to-gray-900 text-white p-4 flex justify-between items-center shrink-0 cursor-move"
+                        className="bg-gradient-to-r from-zinc-900 to-black text-white p-4 flex justify-between items-center shrink-0 cursor-move border-b border-amber-500/30"
                         onPointerDown={handlePointerDown}
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
                     >
                         <div className="flex items-center space-x-2">
-                            <Bot className="text-[var(--color-metallic-gold)]" size={24} />
+                            <Bot className="text-amber-500" size={24} />
                             <div>
                                 <h3 className="font-bold text-sm tracking-wide flex items-center">
-                                    War Assistant <Sparkles size={12} className="ml-1 text-[var(--color-metallic-gold)]" />
+                                    War Assistant <Sparkles size={12} className="ml-1 text-amber-500" />
                                 </h3>
                                 <p className="text-[10px] text-gray-400">Always online</p>
                             </div>
                         </div>
-                        <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white transition">
+                        <button 
+                            onPointerDown={(e) => e.stopPropagation()}
+                            onClick={() => setIsOpen(false)} 
+                            className="text-gray-400 hover:text-white transition p-1"
+                        >
                             <X size={20} />
                         </button>
                     </div>
@@ -150,15 +158,15 @@ export default function AIChatbot() {
                                 <div className={`flex items-end max-w-[85%] space-x-2 ${msg.sender === 'user' ? 'flex-row-reverse space-x-reverse' : 'flex-row'}`}>
                                     
                                     {/* Avatar */}
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.sender === 'user' ? 'bg-[var(--color-brand-black)] text-white' : 'bg-[var(--color-metallic-gold)] text-white'}`}>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.sender === 'user' ? 'bg-zinc-900 text-amber-400' : 'bg-amber-500 text-black'}`}>
                                         {msg.sender === 'user' ? <User size={16} /> : <Bot size={16} />}
                                     </div>
                                     
                                     {/* Bubble */}
                                     <div className={`p-3 rounded-2xl text-sm shadow-sm ${
                                         msg.sender === 'user' 
-                                        ? 'bg-[var(--color-brand-black)] text-white rounded-br-none' 
-                                        : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
+                                        ? 'bg-zinc-900 text-white rounded-br-none' 
+                                        : 'bg-white text-zinc-900 border border-gray-200 rounded-bl-none shadow-sm'
                                     }`}>
                                         {msg.text}
                                     </div>
@@ -170,6 +178,20 @@ export default function AIChatbot() {
 
                     {/* Input Area */}
                     <div className="p-4 bg-white border-t border-gray-100 shrink-0">
+                        {/* Quick Replies */}
+                        {messages.length < 4 && (
+                            <div className="flex flex-wrap gap-1.5 mb-3">
+                                {['How to play?', 'How to deposit?', 'How to overtake rank?'].map((q) => (
+                                    <button
+                                        key={q}
+                                        onClick={() => handleSendText(q)}
+                                        className="text-[10px] bg-amber-50 hover:bg-amber-100 text-amber-900 px-3 py-1.5 rounded-full border border-amber-200 transition-colors font-bold shadow-sm"
+                                    >
+                                        {q}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                         <div className="relative">
                             <input 
                                 type="text"
@@ -177,12 +199,12 @@ export default function AIChatbot() {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                                 placeholder="Ask a question..."
-                                className="w-full bg-gray-50 border border-gray-200 text-sm rounded-full py-3 pl-4 pr-12 focus:outline-none focus:border-[var(--color-metallic-gold)] transition"
+                                className="w-full bg-gray-50 border border-gray-200 text-sm text-zinc-900 rounded-full py-3 pl-4 pr-12 focus:outline-none focus:border-amber-500 transition shadow-inner"
                             />
                             <button 
                                 onClick={handleSend}
                                 disabled={!input.trim()}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-[var(--color-brand-black)] text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition hover:bg-[var(--color-metallic-gold)]"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-zinc-900 text-amber-400 rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition hover:bg-black"
                             >
                                 <Send size={14} className="ml-0.5" />
                             </button>

@@ -1,155 +1,160 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Trophy, Shield, Swords, LogIn, LayoutDashboard } from 'lucide-react';
-import { API_URL, BASE_URL } from '@/lib/api';
+import { usePathname, useRouter } from 'next/navigation';
+import { Volume2, VolumeX, User, Settings } from 'lucide-react';
+import { RulesModal } from './RulesModal';
+import { AdminModal } from './AdminModal';
+import { WarriorProfileModal } from './WarriorProfileModal';
+import { API_URL } from '@/lib/api';
 
 export default function Navbar() {
-    const pathname = usePathname();
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [balance, setBalance] = useState<string>('0.00');
+  const pathname = usePathname();
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [simulationEnabled, setSimulationEnabled] = useState(true);
+  const [showRulesModal, setShowRulesModal] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [showWarriorModal, setShowWarriorModal] = useState(false);
+  const [castes, setCastes] = useState<any[]>([]);
 
-    const isHidden = pathname.startsWith('/admin') || pathname.startsWith('/dashboard');
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    setCurrentUser(null);
+    setShowWarriorModal(false);
+    router.push('/');
+  };
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            setIsAuthenticated(true);
-            const userStr = localStorage.getItem('user');
-            if (userStr) {
-                try {
-                    const user = JSON.parse(userStr);
-                    if (user.wallet && user.wallet.balance) {
-                        setBalance(user.wallet.balance);
-                    }
-                } catch (e) {}
-            }
-            
-            fetch(`${API_URL}/wallet`, {
-                headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success && data.data.wallet) {
-                    setBalance(data.data.wallet.balance);
-                }
-            })
-            .catch(() => {});
-        }
-    }, [pathname]);
+  const isHidden = pathname.startsWith('/admin') || pathname.startsWith('/dashboard');
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
-    };
-
-    const navLinks = [
-        { name: 'Home', href: '/' },
-        { name: 'Leaderboard', href: '/leaderboard' },
-        { name: 'Casts', href: '/casts' },
-        { name: 'Warriors', href: '/warriors' },
-    ];
-
-    if (isHidden) {
-        return null;
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          setCurrentUser(user);
+        } catch (e) {}
+      }
     }
 
-    return (
-        <>
-        <nav className="fixed w-full z-50 transition-all duration-300 py-4 glass-panel border-b border-[var(--color-border-gray)]">
-            <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                
-                {/* Brand / Logo */}
-                <Link href="/" className="flex items-center">
-                    <img 
-                        src="/cast-war-logo.png" 
-                        alt="Cast War" 
-                        className="h-12 w-auto object-contain"
-                    />
-                </Link>
+    const fetchCastes = async () => {
+        try {
+            const res = await fetch(`${API_URL}/leaderboard`);
+            const data = await res.json();
+            if (data.success) {
+                setCastes(data.data);
+            }
+        } catch (err) {}
+    };
+    fetchCastes();
+  }, [pathname]);
 
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex space-x-8 items-center font-bold text-sm tracking-widest uppercase">
-                    {navLinks.map((link) => {
-                        const isActive = pathname === link.href;
-                        return (
-                            <Link 
-                                key={link.name} 
-                                href={link.href}
-                                className={`relative transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-[var(--color-metallic-gold)] after:transition-transform after:duration-300 after:origin-right ${
-                                    isActive 
-                                    ? 'text-[var(--color-rich-gold)] after:scale-x-100 after:origin-left' 
-                                    : 'text-[var(--color-charcoal)] hover:text-[var(--color-metallic-gold)] after:scale-x-0 hover:after:scale-x-100 hover:after:origin-left'
-                                }`}
-                            >
-                                {link.name}
-                            </Link>
-                        );
-                    })}
-                </div>
+  if (isHidden) {
+    return null;
+  }
 
-                {/* Auth Actions */}
-                <div className="hidden md:flex items-center space-x-4">
-                    {isAuthenticated ? (
-                        <>
-                            <Link href="/dashboard/deposit" className="font-bold text-sm px-4 py-2 rounded-full border-2 transition-all border-gray-300 text-[var(--color-charcoal)] hover:border-gray-500">
-                                💰 PKR {parseFloat(balance).toLocaleString()}
-                            </Link>
-                            <Link href="/dashboard" className="bg-[var(--color-metallic-gold)] hover:bg-[var(--color-rich-gold)] text-[var(--color-brand-black)] px-6 py-2 rounded-full font-black text-sm uppercase tracking-wider transition-transform hover:scale-105 shadow-md">
-                                HQ
-                            </Link>
-                        </>
-                    ) : (
-                        <Link href="/login" className="bg-[var(--color-brand-black)] text-[var(--color-metallic-gold)] px-6 py-2 rounded-full font-black text-sm uppercase tracking-wider hover:bg-gray-800 active:scale-95 transition-all shadow-md animate-pulse-glow">
-                            Login
-                        </Link>
-                    )}
-                </div>
+  return (
+    <>
+      <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-[#08090d]/90 backdrop-blur-md">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+          {/* Brand */}
+          <Link href="/" className="flex items-center">
+            <img 
+              src="/cast-war-logo.png" 
+              alt="Cast War" 
+              className="h-12 w-auto object-contain"
+            />
+          </Link>
 
-                {/* We removed the hamburger button, mobile will use bottom nav instead */}
-            </div>
-        </nav>
+          {/* Action Controls */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Live Simulator Toggle */}
+            <button
+              onClick={() => setSimulationEnabled(!simulationEnabled)}
+              title={simulationEnabled ? "Live activity simulation running" : "Live simulation paused"}
+              className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                simulationEnabled
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                  : 'bg-zinc-900 text-zinc-400 border-zinc-800'
+              }`}
+            >
+              <span className={`w-2 h-2 rounded-full ${simulationEnabled ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-600'}`} />
+              <span>{simulationEnabled ? 'LIVE FEED' : 'FEED PAUSED'}</span>
+            </button>
 
-        {/* Mobile Bottom Navigation (only visible on mobile, not hidden pages) */}
-        {!isHidden && (
-            <div className="md:hidden fixed bottom-0 left-0 w-full bg-[var(--color-brand-black)] border-t border-gray-800 z-50 pb-safe">
-                <div className="flex justify-around items-center h-16 px-2">
-                    <Link href="/" className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${pathname === '/' ? 'text-[var(--color-metallic-gold)]' : 'text-gray-400 hover:text-gray-300'}`}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                        <span className="text-[9px] font-bold tracking-widest uppercase">Home</span>
-                    </Link>
-                    <Link href="/leaderboard" className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${pathname === '/leaderboard' ? 'text-[var(--color-metallic-gold)]' : 'text-gray-400 hover:text-gray-300'}`}>
-                        <Trophy size={20} />
-                        <span className="text-[9px] font-bold tracking-widest uppercase">Rank</span>
-                    </Link>
-                    <Link href="/casts" className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${pathname === '/casts' ? 'text-[var(--color-metallic-gold)]' : 'text-gray-400 hover:text-gray-300'}`}>
-                        <Shield size={20} />
-                        <span className="text-[9px] font-bold tracking-widest uppercase">Casts</span>
-                    </Link>
-                    <Link href="/warriors" className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${pathname === '/warriors' ? 'text-[var(--color-metallic-gold)]' : 'text-gray-400 hover:text-gray-300'}`}>
-                        <Swords size={20} />
-                        <span className="text-[9px] font-bold tracking-widest uppercase">Warriors</span>
-                    </Link>
-                    
-                    {isAuthenticated ? (
-                        <Link href="/dashboard" className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${pathname.startsWith('/dashboard') ? 'text-[var(--color-metallic-gold)]' : 'text-gray-400 hover:text-gray-300'}`}>
-                            <LayoutDashboard size={20} />
-                            <span className="text-[9px] font-bold tracking-widest uppercase">HQ</span>
-                        </Link>
-                    ) : (
-                        <Link href="/login" className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${pathname === '/login' ? 'text-[var(--color-metallic-gold)]' : 'text-gray-400 hover:text-gray-300'}`}>
-                            <LogIn size={20} />
-                            <span className="text-[9px] font-bold tracking-widest uppercase">Login</span>
-                        </Link>
-                    )}
-                </div>
-            </div>
-        )}
-        </>
-    );
+            {/* Sound Toggle */}
+            <button
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              className="p-2 rounded-lg bg-zinc-900/90 text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700 transition-colors"
+              title={soundEnabled ? "Mute audio" : "Unmute audio"}
+              aria-label="Toggle Sound"
+            >
+              {soundEnabled ? <Volume2 size={16} className="text-amber-400" /> : <VolumeX size={16} className="text-zinc-500" />}
+            </button>
+
+            {/* Rules / FAQ */}
+            <button
+              onClick={() => setShowRulesModal(true)}
+              className="hidden md:inline-flex px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 rounded-lg hover:bg-zinc-800/60 transition-colors"
+            >
+              Rules & Proof
+            </button>
+
+            {/* User Warrior or Auth */}
+            {isAuthenticated && currentUser ? (
+              <button
+                onClick={() => setShowWarriorModal(true)}
+                className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg bg-gradient-to-r from-zinc-900 to-zinc-800 border border-amber-500/30 text-xs font-semibold text-zinc-200 hover:border-amber-500/60 transition-all shadow-sm"
+              >
+                <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs font-bold border border-amber-400/40 overflow-hidden">
+                  {currentUser.avatar_url ? (
+                    <img src={currentUser.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                  ) : '🦁'}
+                </span>
+                <span className="max-w-[100px] truncate text-amber-300">{currentUser.name || 'Warrior'}</span>
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-xs font-extrabold shadow-md shadow-amber-500/20 transition-all"
+              >
+                <User size={14} />
+                <span>Join As Warrior</span>
+              </Link>
+            )}
+
+            {/* Admin link */}
+            {isAuthenticated && currentUser?.role === 'admin' && (
+              <button
+                onClick={() => setShowAdminModal(true)}
+                title="Admin & Webhook Postback Engine"
+                className="p-2 rounded-lg bg-zinc-900/80 text-zinc-400 hover:text-amber-300 border border-zinc-800 hover:border-zinc-700 transition-colors"
+              >
+                <Settings size={16} />
+              </button>
+            )}
+          </div>
+        </div>
+      </header>
+      {showRulesModal && <RulesModal onClose={() => setShowRulesModal(false)} />}
+      {showAdminModal && <AdminModal onClose={() => setShowAdminModal(false)} />}
+      {showWarriorModal && (
+        <WarriorProfileModal
+          user={currentUser}
+          castes={castes}
+          onClose={() => setShowWarriorModal(false)}
+          onLogout={handleLogout}
+          onSelectCaste={() => {}}
+        />
+      )}
+    </>
+  );
 }

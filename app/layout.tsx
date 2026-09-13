@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono, Noto_Nastaliq_Urdu, Cinzel } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { RealtimeProvider } from "@/components/RealtimeProvider";
@@ -7,10 +7,25 @@ import { Toaster } from 'react-hot-toast';
 import AIChatbot from "@/components/AIChatbot";
 import "./globals.css";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+});
+
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
+  variable: "--font-noto-nastaliq-urdu",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+});
+
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -25,8 +40,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#111111",
+  themeColor: "#08090d",
 };
+
+import { GoogleAuthProviderWrapper } from "@/components/GoogleAuthProviderWrapper";
 
 export default function RootLayout({
   children,
@@ -36,16 +53,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${jetBrainsMono.variable} ${notoNastaliqUrdu.variable} ${cinzel.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans bg-[#08090d] text-slate-100 selection:bg-amber-500/30 selection:text-amber-200">
         <Toaster position="top-center" />
-        <RealtimeProvider>
-          <Navbar />
-          {children}
-          <Footer />
-          <AIChatbot />
-        </RealtimeProvider>
+        <GoogleAuthProviderWrapper>
+          <RealtimeProvider>
+            <Navbar />
+            {children}
+            <Footer />
+            <AIChatbot />
+          </RealtimeProvider>
+        </GoogleAuthProviderWrapper>
       </body>
     </html>
   );
